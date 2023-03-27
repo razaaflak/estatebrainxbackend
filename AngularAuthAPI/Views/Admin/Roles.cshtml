@@ -1,0 +1,13 @@
+﻿@using AngularAuthAPI.Classes;
+@using Microsoft.AspNetCore.Identity;
+
+@model IList<IdentityRole>;
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin | Roles";
+    ViewData["ActivePage"] = ManageAdminPages.Roles;
+
+}
+
+<p>Hello From Admin Roles</p>

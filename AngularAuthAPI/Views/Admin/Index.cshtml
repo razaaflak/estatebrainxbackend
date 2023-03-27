@@ -1,0 +1,11 @@
+﻿@using AngularAuthAPI.Classes;
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin | Home";
+    ViewData["ActivePage"] = ManageAdminPages.Index;
+}
+
+<p>
+    This is super admin account. You can manage your account . Click <a asp-area="Identity" asp-page="/Account/Manage/Index">Here</a> to go to user settings.
+</p>

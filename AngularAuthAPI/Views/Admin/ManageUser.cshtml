@@ -1,0 +1,44 @@
+﻿@using AngularAuthAPI.Classes;
+@using AngularAuthAPI.ViewModels;
+
+@model IList<ManageRoleViewModel>;
+@{
+    
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin | Manage User";
+    ViewData["ActivePage"] = ManageAdminPages.Users;
+}
+
+<form method="post" asp-controller="Admin" asp-action="ManageUser" asp-route-id="@ViewBag.UserId">
+    <div class="card">
+        <div class="card-header">
+            <h2>Manage User Roles</h2>
+            <p>Add / Remove roles for @ViewBag.UserName</p>
+            <p>
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </p>
+        </div>
+        <div class="card-body">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="form-check m-1">
+                    <input type="hidden" asp-for="@Model[i].RoleName" />
+                    <input class="form-check-input" asp-for="@Model[i].IsSelected" />
+                    <label class="form-check-label" asp-for="@Model[i].IsSelected">
+                        @Model[i].RoleName
+                    </label>
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <input type="submit" value="Update" class="btn btn-primary"
+                   style="width:auto" />
+            <a asp-action="Users" asp-controller="Admin"
+               class="btn btn-primary" style="width:auto">Cancel</a>
+        </div>
+
+    </div>
+</form>
+
+
+

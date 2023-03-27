@@ -1,0 +1,83 @@
+﻿@using AngularAuthAPI.Classes;
+@using AngularAuthAPI.ViewModels;
+@model IList<UserRolesViewModel>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin | Users";
+    ViewData["ActivePage"] = ManageAdminPages.Users;
+
+}
+
+<script type="text/javascript">
+
+    function showAlert(id){
+        var result = confirm("Do you want to delete this user?");
+        if(result){
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:44356/Admin/DeleteUser",
+                data: { userId: id },
+                success: function (data) {
+                    alert("success");
+                    console.log(data);
+                    //add some jquery code here to remove the row
+                    var rows = $("#users>tbody>tr");
+                    //console.log("rows are = " + rows.length);
+                    let idx = -1;
+                    for (let i = 0; i < rows.length; i++) {
+                        let userId = $(rows[i]).data("id");
+                        console.log();
+                        if (userId == id) {
+                            idx = i;
+                            break;
+                        }
+                    }
+                    $(rows[idx]).remove();
+                },
+                error: function (ex) {
+                   
+                    var response = JSON.parse(ex.responseText);
+                    console.log(response);
+                    alert(response.message);
+                }
+
+            });
+        }
+    }
+
+</script>
+
+<h2>Users</h2>
+<table class="table table-striped" id="users">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(m=>m.FirstOrDefault().FirstName)</th>
+            <th>@Html.DisplayNameFor(m=>m.FirstOrDefault().LastName)</th>
+            <th>@Html.DisplayNameFor(m=>m.FirstOrDefault().Email)</th>
+            <th>@Html.DisplayNameFor(m=>m.FirstOrDefault().Roles)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var user in Model)
+        {
+            <tr data-id="@user.UserId">
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Email</td>
+                <td>@String.Join(",",user.Roles.ToArray())</td>
+                <td>
+                    <div class="d-flex flex-row justify-content-end">
+                        <a class="btn btn-primary mx-1" asp-controller="Admin" asp-action="ManageUser" asp-route-id="@user.UserId">
+                            <i class="bi bi-gear"></i>&nbsp; Manage
+                        </a>
+                        <a class="btn btn-danger mx-1" onclick="showAlert('@user.UserId')">
+                            <i class="bi bi-trash"></i>&nbsp; Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

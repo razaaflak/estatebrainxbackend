@@ -1,0 +1,33 @@
+﻿@using AngularAuthAPI.Classes;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var indexActive = ManageAdminPages.IsPageActive(ViewContext, ManageAdminPages.Index) ? "active" : "";
+    var rolesActive = ManageAdminPages.IsPageActive(ViewContext, ManageAdminPages.Roles) ? "active" : "";
+    var usersActive = ManageAdminPages.IsPageActive(ViewContext, ManageAdminPages.Users) ? "active" : "";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a class="nav-link @indexActive" asp-controller="Admin" asp-action="Index">
+                    Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @rolesActive"  asp-controller="Admin" asp-action="Roles">
+                    Roles
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @usersActive"  asp-controller="Admin" asp-action="Users">
+                    Users
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <partial name="_StatusMessage" for="@TempData["status"]"/>
+        @RenderBody()
+    </div>
+</div>
